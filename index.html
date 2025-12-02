@@ -93,9 +93,19 @@
     </div>
 
     <script>
-        // --- !!! CRITICAL SECURITY RISK: Single shared password in client-side code !!! ---
-        // This single password is the only key and is visible in the page source.
-        const REQUIRED_PASSWORD = "ecmrisk2028";
+        // --- !!! CRITICAL SECURITY RISK: Obfuscated password in client-side code !!! ---
+        // This is NOT secure. The original password (ecmrisk2028) is still recoverable
+        // by anyone using the browser's developer tools (Inspect Mode).
+        const PASSWORD_CHARS = [101, 99, 109, 114, 105, 115, 107, 50, 48, 50, 56]; //
+        
+        /**
+         *
+         * 
+         */
+        function getRequiredPassword() {
+            // This function is run every time the user attempts to log in.
+            return String.fromCharCode(...PASSWORD_CHARS);
+        }
         // ----------------------------------------------------------------------------------
 
         /**
@@ -106,6 +116,9 @@
             const errorElement = document.getElementById('error-message');
             const loginPage = document.getElementById('login-page');
             const dashboardPage = document.getElementById('dashboard-page');
+
+            // Retrieve the password using the obfuscation function
+            const REQUIRED_PASSWORD = getRequiredPassword();
 
             // 1. Check Password
             if (passwordInput === REQUIRED_PASSWORD) {
