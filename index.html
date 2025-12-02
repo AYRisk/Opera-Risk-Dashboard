@@ -5,63 +5,89 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Construction Project Risk Dashboard</title>
     <style>
-        /* Optional: Basic styling to make the dashboard fill the page */
-        body {
+        /*
+        CSS Fix: Use Viewport Height (vh) to ensure the content dynamically fills the browser window.
+        */
+
+        /* 1. Global Reset: Set the root elements to 100% height and remove default margins/padding. */
+        html, body {
+            height: 100%;
             margin: 0;
-            padding: 20px; /* Add some padding around the dashboard */
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4; /* Light background color */
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9; /* Light, professional background */
+            overflow: hidden; /* Prevents unwanted scrollbars on the main page */
             display: flex;
             flex-direction: column;
-            align-items: center;
         }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
+
+        /* 2. Header Styling */
+        .header {
+            background-color: #ffffff;
+            color: #1f3d7a; /* Professional blue text */
+            padding: 15px 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 10;
+            flex-shrink: 0; /* Prevents the header from shrinking when space is tight */
+            text-align: center;
         }
+
+        .header h1 {
+            font-size: 1.5rem;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        /* 3. Dashboard Container: The element holding the iframe */
         .dashboard-container {
             width: 100%;
-            max-width: 1024px; /* Set a max width for desktop viewing */
-            height: auto;
-            min-height: 1060px; /* Ensure the container is at least the dashboard height */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow */
-            border-radius: 8px;
-            overflow: hidden; /* Important for the iframe */
-            background-color: #fff;
+            /*
+            Crucial Calculation: 
+            100vh = 100% of the viewport height. 
+            We subtract the height of the header (approx. 50px) to ensure the container 
+            fills only the remaining space, eliminating the vertical scrollbar.
+            */
+            height: calc(100vh - 50px);
+            flex-grow: 1; /* Allows the container to take up all remaining vertical space */
         }
+
+        /* 4. Iframe Styling: Ensures the iframe fills its parent container (dashboard-container) */
         iframe {
             width: 100%;
-            height: 1060px; /* Set the height as specified in your iframe tag */
-            border: none; /* Remove the iframe border */
-            display: block; /* Helps with layout consistency */
+            height: 100%;
+            border: none;
+            display: block;
+            background-color: #ffffff;
         }
-        /* Media query for smaller screens, making it more responsive */
-        @media (max-width: 1060px) {
-            .dashboard-container {
-                min-height: 800px;
-                padding: 0;
-            }
-            iframe {
-                height: 800px; /* Adjust height for mobile viewing if needed */
-            }
-            body {
+        
+        /* Responsive Adjustment for smaller screens */
+        @media (max-width: 768px) {
+             .header {
                 padding: 10px;
-            }
+             }
+             .header h1 {
+                 font-size: 1.2rem;
+             }
+             /* Adjust the height calculation for the smaller header */
+             .dashboard-container {
+                height: calc(100vh - 40px); 
+             }
         }
     </style>
 </head>
 <body>
-    <h1>👷 Risk Dashboard - Construction Project Overview</h1>
+    <div class="header">
+        <h1>👷 Risk Dashboard - Construction Project Overview</h1>
+    </div>
+    
     <div class="dashboard-container">
+        <!-- Embedded Power BI Dashboard -->
         <iframe 
             title="Risk Dashboard - Opera" 
-            width="100%" 
-            height="1060" 
             src="https://app.powerbi.com/view?r=eyJrIjoiYjRjNmZhZDgtYjY3Ni00OWI4LTg2ZjMtZTIyNzU0OTFiYzVkIiwidCI6ImRjYmJhNzgwLTM1M2UtNGU4OC04OWY5LTZmNGZmYTdjODM4YSIsImMiOjl9" 
             frameborder="0" 
             allowFullScreen="true">
         </iframe>
     </div>
-    <p style="margin-top: 20px; color: #666;">**Note:** This dashboard requires appropriate permissions within Power BI to view.</p>
 </body>
 </html>
