@@ -3,47 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Construction Project Risk Dashboard - Secure Login</title>
+    <title>Construction Project Risk Dashboard - Secure Login (Full Screen)</title>
     <style>
-        /* CSS Reset and Body Styling */
+        /* CSS Fix: Use Viewport Height (vh) to ensure the content dynamically fills the browser window. */
+
+        /* 1. Global Reset: Set the root elements to 100% height and remove default margins/padding. */
         html, body {
-            height: 100%;
+            /* Now 100% height of the viewport */
+            height: 100vh; 
+            width: 100%;
             margin: 0;
             padding: 0;
             font-family: 'Inter', sans-serif;
             background-color: #f4f7f9;
+            overflow: hidden; /* Prevents unwanted scrollbars */
             display: flex;
             flex-direction: column;
-            overflow: hidden; 
         }
 
-        /* 2. Header Styling */
-        .header {
-            background-color: #ffffff;
-            color: #1f3d7a;
-            padding: 15px 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            z-index: 10;
-            flex-shrink: 0;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            margin: 0;
-            font-weight: 600;
-        }
-
-        /* 3. Dashboard Container: Hidden initially */
+        /* 2. Dashboard Container: The element holding the iframe */
         .dashboard-container {
             width: 100%;
-            height: calc(100vh - 50px);
-            flex-grow: 1;
-            /* Added CSS to hide the dashboard until authenticated */
-            display: none; 
+            /* CRUCIAL CHANGE: Height is now 100% of the viewport height (100vh) */
+            height: 100vh; 
+            flex-grow: 1; 
         }
 
-        /* 4. Iframe Styling */
+        /* 3. Iframe Styling: Ensures the iframe fills its parent container (dashboard-container) */
         iframe {
             width: 100%;
             height: 100%;
@@ -52,35 +38,24 @@
             background-color: #ffffff;
         }
 
-        /* Styling for the unauthorized message */
+        /* Styling for the unauthorized message (also takes full screen) */
         .unauthorized {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: calc(100vh - 50px);
+            height: 100vh; /* Full screen height */
             color: #cc0000;
             font-size: 1.5rem;
             text-align: center;
         }
-        
-        @media (max-width: 768px) {
-            .header { padding: 10px; }
-            .header h1 { font-size: 1.2rem; }
-            .dashboard-container { height: calc(100vh - 40px); }
-            .unauthorized { height: calc(100vh - 40px); }
-        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>👷 Risk Dashboard - Construction Project Overview</h1>
-    </div>
-    
     <div id="unauthorized-message" class="unauthorized" style="display: none;">
         Access Denied. Invalid credentials.
     </div>
 
-    <div class="dashboard-container" id="dashboard-content">
+    <div class="dashboard-container" id="dashboard-content" style="display: none;">
         <iframe 
             title="Risk Dashboard - Opera" 
             src="https://app.powerbi.com/view?r=eyJrIjoiYjRjNmZhZDgtYjY3Ni00OWI4LTg2ZjMtZTIyNzU0OTFiYzVkIiwidCI6ImRjYmJhNzgwLTM1M2UtNGU4OC04OWY5LTZmNGZmYTdjODM4YSIsImMiOjl9" 
@@ -91,14 +66,14 @@
 
     <script>
         // --- !!! SECURITY RISK: Credentials stored in client-side code !!! ---
-        const REQUIRED_EMAIL = "a.yousef@el-seif.com.sa"; // Found in the source code
-        const REQUIRED_PASSWORD = "ecmrisk2028";        // Found in the source code
+        // Storing credentials in client-side JavaScript is easily bypassed.
+        const REQUIRED_EMAIL = "a.yousef@el-seif.com.sa";
+        const REQUIRED_PASSWORD = "ecmrisk2028";
         // ---------------------------------------------------------------------
 
         function authenticate() {
             let email = prompt("Please enter your email:");
             
-            // Check if user clicked cancel on the first prompt
             if (email === null) {
                 document.getElementById('unauthorized-message').style.display = 'flex';
                 return;
@@ -106,7 +81,6 @@
 
             let password = prompt("Please enter your password:");
 
-            // Check if user clicked cancel on the second prompt
             if (password === null) {
                 document.getElementById('unauthorized-message').style.display = 'flex';
                 return;
